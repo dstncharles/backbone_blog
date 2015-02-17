@@ -1,4 +1,5 @@
 (function(){
+
 /////////////
 //Model
 /////////////
@@ -13,11 +14,11 @@ var BlogModel = Backbone.Model.extend({
     }
   });
 
-var PostCollection = Backbone.Collection.extend({
-	url:'http://tiny-pizza-server.herokuapp.com/collections/greenville-chats',
+var PostCollection = Backbone.Collection.extend({	url:'http://tiny-pizza-server.herokuapp.com/collections/greenville-chats',
 	Model: Blog,
 
 });
+
 
 /////////////
 //View
@@ -27,16 +28,27 @@ var BlogPostView = Backbone.View.extend({
 
 	event: {
 		'submit': 'createPost'
-	} 	
-	
+	},
+
+  createPost: function(){
+    event.preventDefault();
+    var id = this.$('js-blog-posts').val();
+    var username = App.router.get('username');
+    this.collection.create({body: body, username: username});
+    this.$('js-blog-posts').val('');
+  }
 });
+
+
+
+
 
 /////////////
 //Router
 /////////////
 var BlogRouter = Backbone.Router.extend({
 	routes:{
-
+    '':'index'
 	},
 
 	initialize: function(){
@@ -46,10 +58,13 @@ var BlogRouter = Backbone.Router.extend({
 	index: function(){
 		this.blog.fetch();
 	}
+
 });
 
 $(document).ready(function){
+  App.router = new AppRouter();
 	Backbone.history.start();
 }
+
 
 })();
