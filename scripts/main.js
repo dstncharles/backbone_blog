@@ -2,14 +2,23 @@
 /////////////
 //Model
 /////////////
-var BlogModel = Backbone.Router.extend({
-	
+var BlogModel = Backbone.Model.extend({
+	defaults: function(attributes){
+		id:'',
+		username:'',
+		body:''
+	}
 });
 
 /////////////
 //View
 /////////////
 var BlogPostView = Backbone.View.extend({
+	el:'js-blog-posts',
+
+	event: {
+		'submit': 'createPost'
+	},	
 	
 });
 
@@ -22,7 +31,7 @@ var BlogRouter = Backbone.Router.extend({
 	},
 
 	initialize: function(){
-		
+
 	}
 });
 $(document).ready(function){
