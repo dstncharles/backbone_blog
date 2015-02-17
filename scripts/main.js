@@ -10,6 +10,12 @@ var BlogModel = Backbone.Model.extend({
 	}
 });
 
+var PostCollection = Backbone.Collection.extend({
+	url:http:'//tiny-pizza-server.herokuapp.com/collections/greenville-chats',
+	Model: Blog
+
+});
+
 /////////////
 //View
 /////////////
@@ -18,7 +24,7 @@ var BlogPostView = Backbone.View.extend({
 
 	event: {
 		'submit': 'createPost'
-	},	
+	}, 	
 	
 });
 
@@ -31,11 +37,12 @@ var BlogRouter = Backbone.Router.extend({
 	},
 
 	initialize: function(){
-
+		this.Post = new PostCollection();
 	}
 });
-$(document).ready(function){
 
+$(document).ready(function){
+	Backbone.history.start();
 }
 
 })();
