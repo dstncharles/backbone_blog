@@ -4,10 +4,11 @@
 //Model
 /////////////
 var BlogModel = Backbone.Model.extend({
+      idAttribute: "_id",
+
    defaults: function(attributes){
       attributes = attributes || {};
       return _.defaults(attributes, {
-        id: '',
         username: '',
         body: ''
       });
@@ -16,7 +17,6 @@ var BlogModel = Backbone.Model.extend({
 
 var PostCollection = Backbone.Collection.extend({	url:'http://tiny-pizza-server.herokuapp.com/collections/greenville-chats',
 	Model: Blog,
-
 });
 
 
@@ -39,9 +39,15 @@ var BlogPostView = Backbone.View.extend({
   }
 });
 
+var PostItemView = Backbone.View.extend({
+  tagName: 'li',
+    className: 'post'
+    template: _.template($('post-template').text());
 
-
-
+    render: function(){
+     this.$el.html( this.template( this.model.toJSON() ) );
+   }
+});
 
 /////////////
 //Router
@@ -53,6 +59,8 @@ var BlogRouter = Backbone.Router.extend({
 
 	initialize: function(){
 		this.post = new PostCollection();
+    this. postList = new BlogPostView({collection:this.posts})
+    this.postInput = new ItemView({collection: this.posts);
 	},
 
 	index: function(){
@@ -61,7 +69,7 @@ var BlogRouter = Backbone.Router.extend({
 
 });
 
-$(document).ready(function){
+$(document).ready (function){
   App.router = new AppRouter();
 	Backbone.history.start();
 }
